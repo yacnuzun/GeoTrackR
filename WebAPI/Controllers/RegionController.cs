@@ -31,7 +31,7 @@ namespace WebAPI.Controllers
             return Ok(region);
         }
 
-        [HttpPost]
+        [HttpPost("createRegion")]
         public async Task<IActionResult> Create(RegionDTO dto)
         {
             var created = await _regionService.CreateAsync(dto);

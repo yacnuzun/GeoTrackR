@@ -2,6 +2,7 @@
 using Core.DTO;
 using Core.Entity;
 using Core.Interface;
+using NetTopologySuite.Geometries;
 
 namespace Application.Manager
 {
@@ -36,7 +37,10 @@ namespace Application.Manager
         {
             var region = new Region
             {
-                Name = regionDto.Name
+                Name = regionDto.Name,
+                CreatedAt = DateTime.UtcNow,
+                Description = regionDto.Description,
+                Polygon = new NetTopologySuite.Geometries.Polygon(new NetTopologySuite.Geometries.LinearRing(regionDto.Cordinates.Select(c => new Coordinate(c.Longitude, c.Latitude)).ToArray())) { SRID=4326}
             };
 
             await _regionRepository.AddAsync(region);
@@ -51,6 +55,13 @@ namespace Application.Manager
             await _regionRepository.Delete(region);
             return true;
         }
+
+        //public async Task<List<Region>> CheckIfPointInAnyRegion(LocationDto locationDto)
+        //{
+        //    var point = new Point(locationDto.Longitude, locationDto.Latitude) { SRID = 4326 };
+
+        //    return await _regionRepository.CheckIfPointInAnyRegion(locationDto);
+        //}
     }
 
 }

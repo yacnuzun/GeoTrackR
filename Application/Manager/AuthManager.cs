@@ -30,7 +30,7 @@ namespace Application.Manager
                 PasswordSalt = passwordSalt,
                 Status = true,
                 CreatedAt = DateTime.UtcNow,
-                
+                Location = new NetTopologySuite.Geometries.Point(userForRegisterDto.Location.Longitude, userForRegisterDto.Location.Latitude) {SRID = 4326},
             };
             var result = await _userService.CreateUserAsync(user);
 
